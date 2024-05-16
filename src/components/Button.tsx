@@ -10,13 +10,14 @@ const colors = {
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
-const Button = forwardRef(function Button(props: Props, forwardedRef: Ref<HTMLButtonElement>) {
+const Button = forwardRef((props: Props, forwardedRef: Ref<HTMLButtonElement>) => {
   const { fullWidth = true, children, ...rest } = props;
-  const buttonId = useId();
+  const id = useId();
+
   return (
     <button
       ref={forwardedRef}
-      id={buttonId}
+      id={id}
       css={css`
         display: inline-flex;
         align-items: center;

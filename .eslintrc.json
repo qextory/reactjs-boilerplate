@@ -23,6 +23,7 @@
         ]
       }
     ],
-    "simple-import-sort/exports": "error"
+    "simple-import-sort/exports": "error",
+    "no-undef": "off"
   }
 }

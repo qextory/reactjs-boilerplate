@@ -1,9 +1,14 @@
-import FixedBottomCTA from '@/components/FixedBottomCTA';
+import { css } from '@emotion/react';
 
 const Home = () => {
   return (
-    <div>
-      <FixedBottomCTA>다음</FixedBottomCTA>
+    <div
+      css={css`
+        display: flex;
+        font-size: 24px;
+      `}
+    >
+      React.js Bolierplate
     </div>
   );
 };
