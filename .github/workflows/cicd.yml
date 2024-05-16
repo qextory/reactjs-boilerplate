@@ -1,12 +1,10 @@
-name: CD
+name: CI
 on:
-  workflow_run:
-    workflows: ['CI']
-    types:
-      - completed
+  push:
+    branches:
+      - main
 jobs:
-  deploy:
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.workflow_id == 'CI'
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -17,6 +15,18 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -26,22 +36,16 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
+      - name: Build
+        run: pnpm run build
+        env:
+          CI: ''
+
       - name: Install AWS CLI
         id: install-aws-cli
         uses: unfor19/install-aws-cli-action@master
       - run: aws --version
         shell: bash
-
-      - name: Install pnpm
-        run: npm i -g pnpm
-
-      - name: Install dependencies
-        run: pnpm i
-
-      - name: Build
-        run: pnpm run build
-        env:
-          CI: ''
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
