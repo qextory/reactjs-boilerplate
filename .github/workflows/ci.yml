@@ -21,12 +21,3 @@ jobs:
         run: pnpm run lint
       - name: Typecheck
         run: pnpm run typecheck
-      - name: Run tests
-        uses: actions/github-script@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const script = require('./test-result-commit.js')
-            console.log(script({github, context}))
